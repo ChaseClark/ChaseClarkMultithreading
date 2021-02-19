@@ -1,25 +1,26 @@
 package edu.frostburg.cosc444.ClarkChaseMultithreading.Threads;
 
-import edu.frostburg.cosc444.ClarkChaseMultithreading.NetflixShow;
+import edu.frostburg.cosc444.ClarkChaseMultithreading.NetflixDatabase;
 
-import java.util.ArrayList;
 
 /*
     This thread counts the total amount of records in the database and prints to console.
  */
 public class ThreadRecordCount implements Runnable {
-    private ArrayList<NetflixShow> _db;
+    private NetflixDatabase _db;
 
-    public ThreadRecordCount(ArrayList<NetflixShow> db) {
+    public ThreadRecordCount(NetflixDatabase db) {
         _db = db;
     }
 
     @Override
     public void run() {
         try {
+            System.out.println("ThreadRecordCount starting...");
             while (true){ // run forever
-                Thread.sleep(2000); // simulate work
-                System.out.println("ThreadRecordCount: There are currently "+_db.size()+" records in the database.");
+                Thread.sleep(6000); // simulate work for 6 seconds
+                System.out.println("ThreadRecordCount: There are currently "+_db.getCount()+
+                        " records in the database.");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

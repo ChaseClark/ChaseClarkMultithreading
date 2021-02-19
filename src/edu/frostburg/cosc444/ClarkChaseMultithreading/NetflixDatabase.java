@@ -15,6 +15,8 @@ public class NetflixDatabase {
     private final String _path = "./netflix_titles.csv";
     private int _currentID = 1;
 
+    // move thread locking logic into this class
+
 
     public NetflixDatabase() {
         _db = new ArrayList<NetflixShow>();
@@ -28,8 +30,6 @@ public class NetflixDatabase {
     private void insertRecordsFromFile(String path) {
         try {
             List<String> allLines = Files.readAllLines(Path.of(path));
-            // testing
-            System.out.println(allLines.size());
             for (String line: allLines) {
                 if (!line.isEmpty())
                 {
@@ -60,6 +60,10 @@ public class NetflixDatabase {
             e.printStackTrace();
             return false;
         }
+    }
 
+    // returns the number of records
+    public int getCount(){
+        return _db.size();
     }
 }
