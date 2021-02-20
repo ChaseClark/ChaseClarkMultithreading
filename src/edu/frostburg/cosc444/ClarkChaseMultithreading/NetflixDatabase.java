@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /*
  This is a utility class for holding the database of netflix shows.
@@ -56,6 +57,26 @@ public class NetflixDatabase {
             _db.add(newShow);
             _currentID++;
             return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // delete random record, returns true if sucessful
+    public boolean removeRandomRecord(){
+        try {
+            // need to check if record is currently locked or not
+            Random random = new Random();
+            NetflixShow show = _db.get(random.nextInt(_db.size()));
+            if (show.is_locked()) {
+                return false;
+            }
+            else {
+                show.set_locked("ThreadDeleteRandomRecord");
+                _db.remove(show);
+                return true;
+            }
         } catch (Exception e){
             e.printStackTrace();
             return false;

@@ -1,6 +1,8 @@
 package edu.frostburg.cosc444.ClarkChaseMultithreading;
 
 
+import edu.frostburg.cosc444.ClarkChaseMultithreading.Threads.ThreadAddRandomRecord;
+import edu.frostburg.cosc444.ClarkChaseMultithreading.Threads.ThreadDeleteRandomRecord;
 import edu.frostburg.cosc444.ClarkChaseMultithreading.Threads.ThreadRecordCount;
 
 import java.io.IOException;
@@ -26,6 +28,17 @@ public class ThreadController {
         _pool = Executors.newFixedThreadPool(8);
         // use ExecutorService to start threads safely
         _pool.execute(new ThreadRecordCount(db));
+        _pool.execute(new ThreadAddRandomRecord(db));
+        _pool.execute(new ThreadDeleteRandomRecord(db));
+
+
+        // shutdown threads after 30 seconds
+        try {
+            Thread.sleep(30 * 1000);
+            _pool.shutdown();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 }
