@@ -105,6 +105,18 @@ public class NetflixShow {
         this._duration = _duration;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "NetflixShow{" +
+                "_id=" + _id +
+                ", _type='" + _type + '\'' +
+                ", _title='" + _title + '\'' +
+                ", _director='" + _director + '\'' +
+                ", _dateAdded='" + _dateAdded + '\'' +
+                ", _releaseYear='" + _releaseYear + '\'' +
+                ", _rating='" + _rating + '\'' +
+                ", _duration='" + _duration + '\'' +
+                ", _locked=" + _locked +
+                '}';
+    }
 }

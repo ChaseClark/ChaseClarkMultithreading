@@ -5,40 +5,33 @@ import edu.frostburg.cosc444.ClarkChaseMultithreading.Threads.ThreadAddRandomRec
 import edu.frostburg.cosc444.ClarkChaseMultithreading.Threads.ThreadDeleteRandomRecord;
 import edu.frostburg.cosc444.ClarkChaseMultithreading.Threads.ThreadRecordCount;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 /*
   Creates a database from file then passes a reference to the database to the newly spawned threads
   so that they can perform actions on the database.
  */
 public class ThreadController {
-    private ExecutorService _pool;
-
     // This method starts the 8 threads with a set delay in between each one.
     public void go() {
         System.out.println("Populating database from file...");
         NetflixDatabase db = new NetflixDatabase();
-
+        Thread th1 = new Thread(new ThreadRecordCount(db));
+        Thread th2 = new Thread(new ThreadAddRandomRecord(db));
+        Thread th3 = new Thread(new ThreadDeleteRandomRecord(db));
         System.out.println("Starting threads...");
-        _pool = Executors.newFixedThreadPool(8);
-        // use ExecutorService to start threads safely
-        _pool.execute(new ThreadRecordCount(db));
-        _pool.execute(new ThreadAddRandomRecord(db));
-        _pool.execute(new ThreadDeleteRandomRecord(db));
-
-
-        // shutdown threads after 30 seconds
+        th1.start();
+        th2.start();
+        th3.start();
+        // prevent deadlock
         try {
-            Thread.sleep(30 * 1000);
-            _pool.shutdown();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            th1.join(1000 * 20);
+            th2.join(1000 * 20);
+            th3.join(1000 * 20);
+
+            System.out.println("All threads have finished.");
+        } catch (Exception e) {
+           //e.printStackTrace();
         }
+
 
     }
 }

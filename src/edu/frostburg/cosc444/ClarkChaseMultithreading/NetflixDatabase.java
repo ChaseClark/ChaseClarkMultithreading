@@ -54,6 +54,8 @@ public class NetflixDatabase {
                              String releaseYear, String rating, String duration){
         try {
             NetflixShow newShow = new NetflixShow(_currentID,type,title,director,dateAdded,releaseYear,rating,duration);
+            // testing
+            //System.out.println(newShow.toString());
             _db.add(newShow);
             _currentID++;
             return true;
