@@ -3,14 +3,13 @@ package edu.frostburg.cosc444.ClarkChaseMultithreading.Threads;
 import edu.frostburg.cosc444.ClarkChaseMultithreading.NetflixDatabase;
 import edu.frostburg.cosc444.ClarkChaseMultithreading.NetflixShow;
 
-// this thread adds up the total amount of seasons in the duration col
-public class ThreadTotalSeasons implements Runnable {
+public class ThreadTotalMinutes implements Runnable{
     private NetflixDatabase _db;
 
-    public ThreadTotalSeasons(NetflixDatabase db){
+
+    public ThreadTotalMinutes(NetflixDatabase db){
         _db = db;
     }
-
 
     @Override
     public void run() {
@@ -20,19 +19,19 @@ public class ThreadTotalSeasons implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            int seasonsCount = 0;
+            int minutesCount = 0;
             for (NetflixShow show: _db.getAllRecords()){
                 var durationString = show.get_duration();
-                // end of string is ether Season, Seasons, else we ignore
+                // end of string is ether mins, else we ignore
                 var split = durationString.trim().split(" ");
                 if(split.length>1){
-                    if (split[1].contains("Season")){
-                        seasonsCount+=Integer.parseInt(split[0]);
+                    if (split[1].contains("min")){
+                        minutesCount+=Integer.parseInt(split[0]);
                     }
                 }
             }
-            if (seasonsCount > 0){
-                System.out.println("(4)ThreadTotalSeasons: There are "+seasonsCount+" total seasons.");
+            if (minutesCount > 0){
+                System.out.println("(5)ThreadTotalMinutes: There are "+minutesCount+" total minutes in shows.");
             }
         }
     }

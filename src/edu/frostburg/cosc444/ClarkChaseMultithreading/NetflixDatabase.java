@@ -6,13 +6,14 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /*
  This is a utility class for holding the database of netflix shows.
  Also, provides methods for modifying the database.
  */
 public class NetflixDatabase {
-    private ArrayList<NetflixShow> _db;
+    private CopyOnWriteArrayList<NetflixShow> _db;
     private final String _path = "./netflix_titles.csv";
     private int _currentID = 1;
 
@@ -20,7 +21,7 @@ public class NetflixDatabase {
 
 
     public NetflixDatabase() {
-        _db = new ArrayList<NetflixShow>();
+        _db = new CopyOnWriteArrayList<NetflixShow>();
         insertRecordsFromFile(_path);
     }
 
@@ -75,7 +76,7 @@ public class NetflixDatabase {
                 return false;
             }
             else {
-                show.set_locked("ThreadDeleteRandomRecord");
+                show.toggle_locked();
                 _db.remove(show);
                 return true;
             }
@@ -88,5 +89,9 @@ public class NetflixDatabase {
     // returns the number of records
     public int getCount(){
         return _db.size();
+    }
+
+    public CopyOnWriteArrayList<NetflixShow> getAllRecords(){
+        return _db;
     }
 }

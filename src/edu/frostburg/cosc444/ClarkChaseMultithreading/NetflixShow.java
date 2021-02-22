@@ -82,13 +82,12 @@ public class NetflixShow {
         return _locked;
     }
 
-    public boolean set_locked(String requester) {
+    public boolean toggle_locked() {
         // if not locked already, set to locked and then print which Thread currently holds the lock
         if (is_locked())
             return false; // already locked
         else if (!is_locked()){
             _locked = true;
-            System.out.println("Record " +_id+" has been locked by "+requester);
             return true;
         }
         return false; // error case

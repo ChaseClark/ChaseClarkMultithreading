@@ -15,12 +15,14 @@ public class ThreadRecordCount implements Runnable {
 
     @Override
     public void run() {
-        try {
-            Thread.sleep(4000); // simulate work for 6 seconds
-            System.out.println("(1)ThreadRecordCount: There are currently "+_db.getCount()+
-                    " records in the database.");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        for (int i = 0; i < 4; i++) {
+            try {
+                Thread.sleep(4000); // simulate work for 6 seconds
+                System.out.println("(1)ThreadRecordCount: There are currently "+_db.getCount()+
+                        " records in the database.");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
